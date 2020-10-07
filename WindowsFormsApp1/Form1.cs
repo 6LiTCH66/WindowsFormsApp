@@ -127,19 +127,43 @@ namespace WindowsFormsApp1
                 pic_box.Size = new Size(100, 100);
                 pic_box.SizeMode = PictureBoxSizeMode.Zoom;
                 pic_box.BorderStyle = BorderStyle.FixedSingle;
+                
                 this.Controls.Add(pic_box);
             }
             else if (e.Node.Text == "Kaart-TabControl")
             {
+
                 tabControl = new TabControl();
                 tabControl.Location = new Point(350, 150);
                 tabControl.Size = new Size(150, 100);
                 page1 = new TabPage("Esimene");
                 page2 = new TabPage("Teine");
                 page3 = new TabPage("Kolmas");
+                page1.BackColor = Color.Red;
+                page2.BackColor = Color.Blue;
+                page3.BackColor = Color.Yellow;
+
                 tabControl.Controls.Add(page1);
                 tabControl.Controls.Add(page2);
                 tabControl.Controls.Add(page3);
+
+
+                string inpu = Interaction.InputBox("");
+                if (inpu == "1")
+                {
+                    tabControl.SelectedIndex = 0;
+                    //tabControl.SelectedTab = this.page1;
+                }
+                else if (inpu == "2")
+                {
+                    tabControl.SelectedIndex = 1;
+                    //tabControl.SelectedTab = this.page2;
+                }
+                else if (inpu == "3")
+                {
+                    tabControl.SelectedIndex = 2;
+                    //7tabControl.SelectedTab = this.page3;
+                }
 
                 this.Controls.Add(tabControl);
 
