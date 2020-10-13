@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -23,6 +24,10 @@ namespace WindowsFormsApp1
         PictureBox pic_box;
         TabControl tabControl;
         TabPage page1, page2, page3;
+        ListBox lbox;
+        DataGridView dgv;
+        MainMenu menu;
+        TreeNode tn;
         public Form1()
         {
             this.Height = 500;
@@ -31,7 +36,7 @@ namespace WindowsFormsApp1
             tree = new TreeView();
             tree.Dock = DockStyle.Left;
             tree.AfterSelect += Tree_AfterSelect;
-            TreeNode tn = new TreeNode("Elemendid");
+            tn = new TreeNode("Elemendid");
             tn.Nodes.Add(new TreeNode("Nupp-Button"));
             //button
             btn = new Button();
@@ -54,6 +59,13 @@ namespace WindowsFormsApp1
             tn.Nodes.Add(new TreeNode("PictureBox-Pildikast"));
             tn.Nodes.Add(new TreeNode("Kaart-TabControl"));
             tn.Nodes.Add(new TreeNode("MessageBox"));
+            tn.Nodes.Add(new TreeNode("ListBox"));
+
+            tn.Nodes.Add(new TreeNode("DataGridView"));
+
+
+            tn.Nodes.Add(new TreeNode("Menu"));
+
             tree.Nodes.Add(tn);
             this.Controls.Add(tree);
         }
@@ -162,7 +174,7 @@ namespace WindowsFormsApp1
                 else if (inpu == "3")
                 {
                     tabControl.SelectedIndex = 2;
-                    //7tabControl.SelectedTab = this.page3;
+                    //tabControl.SelectedTab = this.page3;
                 }
 
                 this.Controls.Add(tabControl);
@@ -183,6 +195,106 @@ namespace WindowsFormsApp1
                         this.Controls.Add(lbl);
                     }
                 }
+            }
+            else if(e.Node.Text == "ListBox")
+            {
+                string[] colors_nim = new string []{ "Sinine", "Kollane", "Roheline", "Punane" };
+
+                lbox = new ListBox();
+                int sizeOfList;
+                int maxLength;
+                maxLength = colors_nim.Select(x => x.Length).Max();
+                foreach (var item in colors_nim)
+                {
+                    lbox.Items.Add(item);
+                }
+
+                sizeOfList = colors_nim.Length;
+                lbox.Click += Lbox_Click;
+                lbox.Location = new Point(150, 300);
+                lbox.Width = maxLength * 10;
+                lbox.Height = sizeOfList * 15;
+                
+                Controls.Add(lbox);
+                
+            }
+            else if(e.Node.Text == "DataGridView")
+            {
+                DataSet dataSet = new DataSet("Näide");
+                dataSet.ReadXml("..//..Files//XMLFile1.xml");
+                DataGridView dgv = new DataGridView();
+                dgv.Location = new Point(200, 200);
+                dgv.Width = 250;
+                dgv.Height = 250;
+                dgv.AutoGenerateColumns = true;
+                dgv.DataMember = "CATALOG";
+                dgv.DataSource = dataSet;
+                Controls.Add(dgv);
+            }
+            else if(e.Node.Text == "Menu")
+            {
+                MainMenu menu = new MainMenu();
+                MenuItem menuItem1 = new MenuItem("File");
+                menuItem1.MenuItems.Add("Exit", new EventHandler(menuItem1_Exit));
+
+                MenuItem menuItem = new MenuItem("My");
+                menuItem.MenuItems.Add("BagroundColor", new EventHandler(menuItem_backColor));
+
+                menuItem.MenuItems.Add("TreeView Color", new EventHandler(menuItem_treeColor));
+
+                menuItem.MenuItems.Add("TreeView Font", new EventHandler(menuItem_treeFont));
+
+
+                menu.MenuItems.Add(menuItem1);
+                menu.MenuItems.Add(menuItem);
+
+                this.Menu = menu;
+
+            }
+        }
+
+        private void menuItem_treeFont(object sender, EventArgs e)
+        {
+            Font f = new Font("Arial", 10, FontStyle.Bold);
+            tn.NodeFont = f;
+        }
+
+        private void menuItem_treeColor(object sender, EventArgs e)
+        {
+            tree.BackColor = Color.AliceBlue;
+        }
+
+        private void menuItem_backColor(object sender, EventArgs e)
+        {
+            BackColor = Color.Aquamarine;
+        }
+
+        private void Lbox_Click(object sender, EventArgs e)
+        {
+
+            if (lbox.Text == "Sinine")
+            {
+                lbox.BackColor = Color.Blue;
+            }
+            else if (lbox.Text == "Kollane")
+            {
+                lbox.BackColor = Color.Yellow;
+            }
+            else if (lbox.Text == "Roheline")
+            {
+                lbox.BackColor = Color.Green;
+            }
+            else if (lbox.Text == "Punane")
+            {
+                lbox.BackColor = Color.Red;
+            }
+        }
+
+        private void menuItem1_Exit(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Kas sa oled kindel?", "Küsimus", MessageBoxButtons.YesNo)==DialogResult.Yes)
+            {
+                this.Close();
             }
         }
 
