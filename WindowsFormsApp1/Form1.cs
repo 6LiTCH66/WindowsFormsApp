@@ -242,7 +242,7 @@ namespace WindowsFormsApp1
 
                 menuItem.MenuItems.Add("TreeView Color", new EventHandler(menuItem_treeColor));
 
-                menuItem.MenuItems.Add("TreeView Font", new EventHandler(menuItem_treeFont));
+                menuItem.MenuItems.Add("TreeView Bottom", new EventHandler(menuItem_treeBottom));
 
 
                 menu.MenuItems.Add(menuItem1);
@@ -253,10 +253,9 @@ namespace WindowsFormsApp1
             }
         }
 
-        private void menuItem_treeFont(object sender, EventArgs e)
+        private void menuItem_treeBottom(object sender, EventArgs e)
         {
-            Font f = new Font("Arial", 10, FontStyle.Bold);
-            tn.NodeFont = f;
+            tree.Dock = DockStyle.Bottom;
         }
 
         private void menuItem_treeColor(object sender, EventArgs e)
